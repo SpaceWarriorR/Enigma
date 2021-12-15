@@ -1,3 +1,4 @@
+# this file contains the main enigma algorithm
 from string import ascii_lowercase, ascii_uppercase
 
 

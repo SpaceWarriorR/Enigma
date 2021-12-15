@@ -1,26 +1,31 @@
-# file processing functions
+# this file contains the main file processing functions
 
-# # general file processing
+
+# general file processing
 def get_dat(file):
     with open(file) as f:
         return f.read().split('\n')
 
+
+# function returning plugboard settings from file
 def get_plugs(file):
     with open(file)as f:
         return f.read()
 
+
+# function writing plugboard settings to file
 def set_plugs(txt, file):
     with open('plugboard.enigma', 'w') as f:
         f.write(txt)
 
-# temp function
+
 # getting plugboard settings
 def get_plug_data(file):
     with open(file) as f:
         return f.read().split(' ')
 
 
-# # getting the rotors
+# getting the rotors
 def get_rotors(file):
     # getting all rotors from files
     data = get_dat(file)
@@ -35,7 +40,7 @@ def get_rotors(file):
     return [func_rotor_names, func_rotors]
 
 
-# # getting reflectors
+# getting reflectors
 def get_reflectors(file):
     # getting all reflectors from file
     data = get_dat(file)

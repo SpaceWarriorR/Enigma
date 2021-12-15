@@ -1,3 +1,5 @@
+# this file contains all of the GUI management, handled using tkinter
+
 import re
 import tkinter as tk
 from tkinter import messagebox
@@ -6,7 +8,7 @@ from file_processing import *
 from enigma import enigma
 
 
-# custom text box class with edit detection
+# custom text widget with edit detection
 class CustomText(tk.Text):
     def __init__(self, *args, **kwargs):
         """A text widget that report on internal widget commands"""
@@ -31,7 +33,6 @@ class CustomText(tk.Text):
 def plugboard_editor():
     # function for saving plugboard settings to a file
     def save_plugboard():
-
         # getting settings from text box and preparing for checks
         txt = txt_edit.get(1.0, tk.END).strip() + ' '
 
@@ -104,6 +105,7 @@ def gui():
 
         return enigma(msg, rotors, poss, rings, reflector, plugboard)
 
+
     # function called when text in input box is changed to encrypt it in output box
     def on_modification(event=None):
         txt_output.configure(state='normal')
@@ -111,15 +113,17 @@ def gui():
         txt_output.insert(tk.END, encrypt(txt_input.get(1.0, tk.END)))
         txt_output.configure(state='disabled')
 
+
+    # main bits
     # making the window and configuring sizes
     win_main = tk.Tk()
-    win_main.geometry("750x250")
+    win_main.geometry("760x250")
     win_main.title('Enigma')
     win_main.rowconfigure(0, minsize=230, weight=1)
     win_main.columnconfigure(0, minsize=250, weight=1)
     win_main.columnconfigure(2, minsize=250, weight=1)
 
-    # text bits
+    # text bits and frame for buttons
     txt_input = CustomText(win_main)
     txt_input.bind("<<TextModified>>", on_modification)
     fr_options = tk.Frame(win_main, relief=tk.RAISED, bd=2)
@@ -138,6 +142,8 @@ def gui():
     str_var_rotor1_choice = tk.StringVar(fr_options)
     str_var_rotor2_choice = tk.StringVar(fr_options)
     str_var_rotor3_choice = tk.StringVar(fr_options)
+
+    rotor_names = get_rotors('rotors.txt')[0]
     str_var_rotor1_choice.set(rotor_names[0])
     str_var_rotor2_choice.set(rotor_names[1])
     str_var_rotor3_choice.set(rotor_names[2])
@@ -200,6 +206,7 @@ def gui():
     # # # making the reflector widgets
     lbl_reflector_choice = tk.Label(fr_options, text='Reflector')
     str_var_reflector_choice = tk.StringVar(fr_options)
+    reflector_names = get_reflectors('reflectors.txt')[0]
     str_var_reflector_choice.set(reflector_names[0])
     om_rfchoice = tk.OptionMenu(fr_options, str_var_reflector_choice, *reflector_names)
 
@@ -217,7 +224,7 @@ def gui():
     lbl_plug.grid(row=6, column=1)
     btn_plug.grid(row=7, column=1)
 
-    # Apply changes
+    # apply changes
     btn_apply = tk.Button(fr_options, text='Apply changes', command=on_modification)
     btn_apply.grid(row=8,column=1)
 
